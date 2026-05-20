@@ -2,10 +2,7 @@ from fastapi import FastAPI, File, UploadFile, Form, HTTPException
 from fastapi.responses import JSONResponse
 from pymongo import MongoClient
 from bson import ObjectId
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from fastapi.middleware.cors import CORSMiddleware
-import cv2
-import pickle
 import subprocess
 import shutil
 import uuid
@@ -60,21 +57,6 @@ DATASET_FOLDER = r"D:/DOWNLOADS/BLOOD/BLOOD/DATASET"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(DESCRIPTOR_FOLDER, exist_ok=True)
 
-print("Loading all descriptors into RAM...")
-descriptor_cache = []
-for record in collection.find({}, {"_id": 0}):
-    path = record.get("descriptor_path", "")
-    if path and os.path.exists(path):
-        with open(path, "rb") as f:
-            saved_data = pickle.load(f)
-        descriptor_cache.append({
-            "person_id":       record.get("person_id", ""),
-            "blood_group":     record.get("blood_group", ""),
-            "cloudinary_url":  record.get("cloudinary_url", ""),
-            "descriptors":     saved_data["descriptors"],
-            "keypoints_count": saved_data["keypoints_count"]
-        })
-print(f"Loaded {len(descriptor_cache)} descriptors into RAM ✅")
 
 # =============================
 # HELPER - Run Python Script
