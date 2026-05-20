@@ -17,9 +17,9 @@ import cloudinary.uploader
 
 
 cloudinary.config(
-    cloud_name = "dl9rx32pp",
-    api_key    = "577572933851461",
-    api_secret = "9fJNF4E1ywOQX02kyfbPM3-iskw"
+    cloud_name = os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key    = os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret = os.environ.get("CLOUDINARY_API_SECRET")
 )
 
 # =============================
@@ -37,7 +37,7 @@ app.add_middleware(
 # =============================
 # MONGODB CONNECTION
 # =============================
-MONGO_URI = "mongodb+srv://bathribathrinath02_db_user:nFfXdLPjeHMVKCnf@cluster0.5cc30a7.mongodb.net/?appName=Cluster0"
+MONGO_URI = os.environ.get("MONGO_URI")
 DB_NAME = "Fringerprint_blood"
 COLLECTION_NAME = "FP_Blood"
 
